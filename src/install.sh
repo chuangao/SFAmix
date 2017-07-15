@@ -30,13 +30,13 @@ cp -r ${Rhome}/lib/* .//lib/
 
 ls
 
-#if [[ $OSTYPE == "darwin"* ]]; then
+if [[ $OSTYPE == "darwin"* ]]; then
 
-#    install_name_tool -change ~/SFAmix/R/gsl-2.2/lib/libgsl.19.dylib ${PWD}/SFAmix/src/lib/libgsl.19.dylib SFAmix.so
-#    install_name_tool -change ~/SFAmix/R/gsl-2.2/lib/libgslcblas.0.dylib ${PWD}/SFAmix/src/lib/libgslcblas.0.dylib SFAmix.so
+    install_name_tool -change ~/SFAmix/R/gsl-2.2/lib/libgsl.19.dylib ${PWD}/SFAmix/src/lib/libgsl.19.dylib SFAmix.so
+    install_name_tool -change ~/SFAmix/R/gsl-2.2/lib/libgslcblas.0.dylib ${PWD}/SFAmix/src/lib/libgslcblas.0.dylib SFAmix.so
 
-#fi
+fi
 
-#ls
+ls
 
 
