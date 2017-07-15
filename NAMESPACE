@@ -1,0 +1,11 @@
+# Import required packages
+# none so far
+
+importFrom("stats", "rnorm")
+ 
+# Load dynamic libraries (shared object files)
+useDynLib(SFAmix)
+ 
+# Export functions defined in R code
+export("SFAmixR")
+export("gen_SFAmix_data")
