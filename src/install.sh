@@ -26,7 +26,7 @@ cd ../
 mkdir -p ./include/R
 Rhome=$(R RHOME)
 cp -r ${Rhome}/include/* ./include/R/
-cp -r ${Rhome}/lib/* .//lib/
+cp -r ${Rhome}/lib/* ./lib/
 
 ls
 

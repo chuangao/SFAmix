@@ -70,6 +70,12 @@ SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500){
 
     sn = nrow(y)
     dy = ncol(y)
+    
+    LAM_out <- rep(0,nrow_param*nf_param)
+    EX_out <- rep(0,nf_param*ncol_param)
+    EXX_out <- rep(0,nf_param*nf_param)
+    Z_out <- rep(0,nf_param)
+    nf_out <- rep(0,1)
 
     result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM.out,EX.out,Z_out, EXX_out, nf.out)
     return(result)

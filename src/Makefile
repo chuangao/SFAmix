@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -O3 -DNDEBUG -fpic -pipe -march=x86-64 -ffast-math 
+CFLAGS=-g -O3 -DNDEBUG -fpic -pipe -march=x86-64 -ffast-math
 #CFLAGS=-O2 -march=x86-64 -ffast-math -DHAVE_INLINE -DGSL_RANGE_CHECK_OFF -g -pg -fopenmp
 LINKER=-L${CURDIR}/lib/ -W,-rpath,${CURDIR}/lib/
 
