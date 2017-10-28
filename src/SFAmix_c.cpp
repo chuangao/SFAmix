@@ -536,18 +536,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 
 		MatrixXd range_LAM = MatrixXd::Constant(2,nf,0);
 		MatrixXd range_EX = MatrixXd::Constant(2,nf,0);
-
-		//MatrixXd range_THETA = MatrixXd::Constant(2,nf,0);
-
-		//MatrixXd range_LAM_cov = MatrixXd::Constant(2,nfc,0);
-		//MatrixXd range_EX_cov = MatrixXd::Constant(2,nfc,0);	
-		 
-		//range_colwise(range_LAM,LAM,s_n,nf);
-		//range_rowwise(range_EX,EX,nf,d_y);
-		//range_colwise(range_THETA,THETA,s_n,nf);
-	
-
-
      
         lam_count_v(itr+1)=lam_count;
   
