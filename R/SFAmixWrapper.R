@@ -76,7 +76,7 @@ SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=NULL,out_dir=NULL){
     if(ncount == 1){
         stop("You choose to write temprary output, but either the iteration number or the output directory is missing!")
     }
-    if(!file.exists(out_dir)){
+    if(ncount == 0 && !file.exists(out_dir)){
         stop("Your specified output directory is not found!")
     }
     
