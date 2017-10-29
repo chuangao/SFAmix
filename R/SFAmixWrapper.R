@@ -40,7 +40,7 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 #' @param a paramater one for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param b paramater two for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param itr The maximum number of iterations the algorithm is allowed to run, default to 500
-#' @param out_itr Iteration number at which the algorithm will write temporary results into the specified directory (see below)
+#' @param out_itr Iteration number out_itr, the algorithm will write temporary results into the specified directory (see below) every out_itr number of iterations.
 #' @param out_dir Directory where the algorithm will write temporary results into at the specified iteration number(see above)
 
 
