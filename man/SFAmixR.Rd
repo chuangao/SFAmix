@@ -4,7 +4,7 @@
 \alias{SFAmixR}
 \title{An algorithm for decomposing a high dimensional matrix into the product of a sparse loading matrix, and a dense factor matrix.}
 \usage{
-SFAmixR(y = y, nf = 50, a = 0.5, b = 0.5, itr = 500, out_itr = NULL,
+SFAmixR(y = y, nf = 50, a = 0.5, b = 0.5, itr = 500, out_itr = 20,
   out_dir = NULL)
 }
 \arguments{
@@ -18,9 +18,9 @@ SFAmixR(y = y, nf = 50, a = 0.5, b = 0.5, itr = 500, out_itr = NULL,
 
 \item{itr}{The maximum number of iterations the algorithm is allowed to run, default to 500}
 
-\item{out_itr}{An iteration number at which the algorithm will output results into a specified directory (see below)}
+\item{out_itr}{Iteration number at which the algorithm will write temporary results into the specified directory (see below)}
 
-\item{out_dir}{The directory where temporary results at specified iteration (see above) are stored}
+\item{out_dir}{Directory where the algorithm will write temporary results into at the specified iteration number(see above)}
 }
 \value{
 lam: the sparse loading matrix
