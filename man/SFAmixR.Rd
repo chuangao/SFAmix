@@ -18,9 +18,9 @@ SFAmixR(y = y, nf = 50, a = 0.5, b = 0.5, itr = 500, out_itr = 20,
 
 \item{itr}{The maximum number of iterations the algorithm is allowed to run, default to 500}
 
-\item{out_itr}{Iteration number at which the algorithm will write temporary results into the specified directory (see below)}
+\item{out_itr}{(Optional) Iteration number out_itr, the algorithm will write temporary results into the specified directory (see below) every out_itr number of iterations.}
 
-\item{out_dir}{Directory where the algorithm will write temporary results into at the specified iteration number(see above)}
+\item{out_dir}{(Optional) Directory where the algorithm will write temporary results into at the specified iteration number(see above)}
 }
 \value{
 lam: the sparse loading matrix
