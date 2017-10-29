@@ -1,5 +1,5 @@
 
-SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param, itr_param, LAM_out, EX_out, Z_out, EXX_out, nf_out){
+SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param, itr_param, LAM_out, EX_out, Z_out, EXX_out, nf_out, out_itr, out_dir){
     Y_TMP_param <- as.numeric(as.character(Y_TMP_param))   
     LAM_out <- rep(0,nrow_param*nf_param)
     EX_out <- rep(0,nf_param*ncol_param)
@@ -8,7 +8,7 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
     nf_out <- rep(0,1)
     
     result <- .C ("SFAmix",
-                  as.double(Y_TMP_param),as.integer(nrow_param), as.integer(ncol_param), as.double(a_param),as.double(b_param), as.integer(nf_param), as.integer(itr_param), LAM=as.double(LAM_out), EX=as.double(EX_out), Z=as.double(Z_out), EXX=as.double(EXX_out), nf=as.integer(nf_out))
+                  as.double(Y_TMP_param),as.integer(nrow_param), as.integer(ncol_param), as.double(a_param),as.double(b_param), as.integer(nf_param), as.integer(itr_param), LAM=as.double(LAM_out), EX=as.double(EX_out), Z=as.double(Z_out), EXX=as.double(EXX_out), nf=as.integer(nf_out), as.integer(out_itr), as.character(out_dir))
 
     nf <- result[['nf']][1]
     
@@ -40,6 +40,8 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 #' @param a paramater one for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param b paramater two for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param itr The maximum number of iterations the algorithm is allowed to run, default to 500
+#' @param out_itr An iteration number at which the algorithm will output results into a specified directory (see below)
+#' @param out_dir The directory where temporary results at specified iteration (see above) are stored
 
 #' @return lam: the sparse loading matrix
 #' @return ex: the factor matrix
@@ -66,20 +68,34 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 
 #' @references \url{https://arxiv.org/abs/1310.4792}
 
-SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500){
-
+SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=NULL,out_dir=NULL){
+    if(missing(y)){
+        stop("Please check our documentation for the correct usage of this methods, you are missing an input matrix!")
+    }
+    ncount <- is.null(out_itr) + is.null(out_dir)
+    if(ncount == 1){
+        stop("You choose to write temprary output, but either the iteration number or the output directory is missing!")
+    }
+    if(!file.exists(out_dir)){
+        stop("Your specified output directory is not found!")
+    }
+    
     sn = nrow(y)
     dy = ncol(y)
     
-    LAM_out <- rep(0,nrow_param*nf_param)
-    EX_out <- rep(0,nf_param*ncol_param)
-    EXX_out <- rep(0,nf_param*nf_param)
-    Z_out <- rep(0,nf_param)
-    nf_out <- rep(0,1)
+    LAM_out <- c()
+    EX_out <- c()
+    EXX_out <- c()
+    Z_out <- c()
+    nf_out <- c()
 
-    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out)
+    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out, out_itr, out_dir)
+    
+    
     return(result)
 }
+
+
 
 #' Simulate matrix with dimension of 500 x 200, number of factors is set to 15, where 10 of them being sparse. The sparse loading matrix cotains mostly zeros, and random blocks of nonzero values generated from N(0,std). The dense loading matrix is generated from N(0,std), the factor matrix and the error matrix are generated from N(0,1).
 

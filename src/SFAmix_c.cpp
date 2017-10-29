@@ -52,7 +52,7 @@ using Eigen::MatrixXd;
 
 
 
-extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, double *a_param,double *b_param, int *nf_param, int *itr_param, double *LAM_out, double *EX_out, double *Z_out, double *EXX_out, int *nf_out){
+extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, double *a_param,double *b_param, int *nf_param, int *itr_param, double *LAM_out, double *EX_out, double *Z_out, double *EXX_out, int *nf_out, int *out_itr, char **output_dir){
     
     double a = *a_param;
     double b = *b_param;
@@ -60,6 +60,11 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 	int s_n = *nrow_param;
 	int d_y = *ncol_param;
 	int n_itr = *itr_param;
+    
+    int interval = *out_itr;
+    string out_dir = *output_dir;
+    
+    stringstream ss;
 
 	//cout << "a " << a << endl;
 
@@ -72,9 +77,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 
 	double c=0.5,d=0.5,g=0.5,h=0.5,alpha=1,beta=1;
 
-	int interval = 100;
-
-	 MatrixXd Y=MatrixXd::Constant(s_n,d_y,0);
+    MatrixXd Y=MatrixXd::Constant(s_n,d_y,0);
     
     for(int i = 0; i < d_y; i++){
         for(int j = 0; j < s_n; j++){
@@ -188,12 +191,13 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 	
     for(int itr=0;itr<(n_itr-1);itr++){
 
-		if(itr%1==0){
+		if(itr%10==0){
             //cout << "after reduction" << endl;
             cout << "itr " << itr << endl;
             cout << "number of factors " << nf << endl;
             
             cout << "count_lam" << endl << count_lam.transpose() << endl;
+			//cout << "out_dir" << endl << out_dir << endl;
 
 			/*
 			cout << "TAU " << TAU(1) << endl;
@@ -292,7 +296,8 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 				 }
 				 }
 				 }
-		*/      
+		*/
+        
 		// Count the number of loadings that are active, either all zero or PHI_k zero will kill 
 		int count_nonzero = 0;
 		for(int i=0;i<nf;i++){
@@ -546,7 +551,53 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 
 				break; 
             }   
-        }   
+        }
+        if(itr % interval == 0){
+            ss.str("");
+            ss.clear();
+            ss << out_dir << "/LAM_" << itr;
+            ofstream f_lam (ss.str().c_str());
+            if (f_lam.is_open()){
+                f_lam << LAM << endl;
+            }
+            f_lam.close();
+            
+            ss.str("");
+            ss.clear();
+            ss << out_dir << "/EX_" << itr;
+            ofstream f_ex (ss.str().c_str());
+            if (f_ex.is_open()){
+                f_ex << EX << endl;
+            }
+            f_ex.close();
+            
+            ss.str("");
+            ss.clear();
+            ss << out_dir << "/Z_" << itr;
+            ofstream f_z (ss.str().c_str());
+            if (f_z.is_open()){
+                f_z << Z.row(1) << endl;
+            }
+            f_z.close();
+            
+            ss.str("");
+            ss.clear();
+            ss << out_dir << "/EXX_" << itr;
+            ofstream f_exx (ss.str().c_str());
+            if (f_exx.is_open()){
+                f_exx << EXX << endl;
+            }
+            f_exx.close();
+            
+            ss.str("");
+            ss.clear();
+            ss << out_dir << "/nf_" << itr;
+            ofstream f_nf (ss.str().c_str());
+            if (f_nf.is_open()){
+                f_nf << nf << endl;
+            }
+            f_nf.close();
+        }
     }
 
 	cout << "nf " << nf << endl;
@@ -557,7 +608,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 			LAM_out[i*s_n + j] = LAM(j,i);
 		}
 	}
-	
 	
 	for(int i = 0; i < d_y; i++){
 		for(int j = 0; j < nf; j++){
