@@ -552,7 +552,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 				break; 
             }   
         }
-        if(itr % interval == 0){
+        if(out_dir.compare("NULL") != 0 & itr % interval == 0){
             ss.str("");
             ss.clear();
             ss << out_dir << "/LAM_" << itr;

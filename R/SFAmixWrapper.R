@@ -40,8 +40,9 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 #' @param a paramater one for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param b paramater two for the three parameter beta distribution, default to 0.5 to recapitulate horseshoe
 #' @param itr The maximum number of iterations the algorithm is allowed to run, default to 500
-#' @param out_itr An iteration number at which the algorithm will output results into a specified directory (see below)
-#' @param out_dir The directory where temporary results at specified iteration (see above) are stored
+#' @param out_itr Iteration number at which the algorithm will write temporary results into the specified directory (see below)
+#' @param out_dir Directory where the algorithm will write temporary results into at the specified iteration number(see above)
+
 
 #' @return lam: the sparse loading matrix
 #' @return ex: the factor matrix
@@ -68,18 +69,19 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 
 #' @references \url{https://arxiv.org/abs/1310.4792}
 
-SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=NULL,out_dir=NULL){
+SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=20,out_dir=NULL){
+    out_dir2 = out_dir
     if(missing(y)){
         stop("Please check our documentation for the correct usage of this methods, you are missing an input matrix!")
     }
-    ncount <- is.null(out_itr) + is.null(out_dir)
-    if(ncount == 1){
-        stop("You choose to write temprary output, but either the iteration number or the output directory is missing!")
+    if(is.null(out_dir)){
+        out_dir2 = "NULL"
+    }else{
+        if(!file.exists(out_dir)){
+            stop("Your specified output directory is not found!")
+        }
     }
-    if(ncount == 0 && !file.exists(out_dir)){
-        stop("Your specified output directory is not found!")
-    }
-    
+    out_dir2 <- gsub("/","",out_dir2)
     sn = nrow(y)
     dy = ncol(y)
     
@@ -89,7 +91,7 @@ SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=NULL,out_dir=NULL){
     Z_out <- c()
     nf_out <- c()
 
-    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out, out_itr, out_dir)
+    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out, out_itr, out_dir2)
     
     
     return(result)
