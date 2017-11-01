@@ -71,11 +71,12 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 
 SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=20,out_dir=NULL){
     out_dir2 = out_dir
+    out_dir2 = gsub("/","%",out_dir2)
     if(missing(y)){
         stop("Please check our documentation for the correct usage of this methods, you are missing an input matrix!")
     }
-    if(is.null(out_dir)){
-        out_dir2 = "NULL"
+        if(is.null(out_dir)){
+       out_dir2 = "NULL"
     }else{
         if(!file.exists(out_dir)){
             stop("Your specified output directory is not found!")

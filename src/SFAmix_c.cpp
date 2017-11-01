@@ -63,6 +63,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     
     int interval = *out_itr;
     string out_dir = *output_dir;
+    std::replace( out_dir.begin(), out_dir.end(), '%', '/');
     
     stringstream ss;
 
@@ -192,6 +193,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     for(int itr=0;itr<(n_itr-1);itr++){
 
 		if(itr%10==0){
+            cout << out_dir << endl;
             //cout << "after reduction" << endl;
             cout << "itr " << itr << endl;
             cout << "number of factors " << nf << endl;
@@ -553,6 +555,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
             }   
         }
         if(out_dir.compare("NULL") != 0 & itr % interval == 0){
+            
             ss.str("");
             ss.clear();
             ss << out_dir << "/LAM_" << itr;
