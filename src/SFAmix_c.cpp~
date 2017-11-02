@@ -193,7 +193,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     for(int itr=0;itr<(n_itr-1);itr++){
 
 		if(itr%10==0){
-		  //cout << out_dir << endl;
+            cout << out_dir << endl;
             //cout << "after reduction" << endl;
             cout << "itr " << itr << endl;
             cout << "number of factors " << nf << endl;
