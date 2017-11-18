@@ -10,4 +10,4 @@
 `git clone https://github.com/chuangao/SFAmix` <br/>
 `R CMD INSTALL SFAmix` <br/>
 
-Please refer to SFAmix.pdf for more usage details
+Please refer to SFAmix.pdf for more details

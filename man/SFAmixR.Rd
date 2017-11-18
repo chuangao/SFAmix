@@ -32,6 +32,8 @@ z: a vector indicating whether the corresponding loading is sparse (value of 1)
 nf: the number of factors learned by the model
 
 exx: the expected value of the covarance matrix, E(XX^T)
+
+itr: the number of iterations for the algorithm to converge
 }
 \description{
 An algorithm for decomposing a high dimensional matrix into the product of a sparse loading matrix, and a dense factor matrix.

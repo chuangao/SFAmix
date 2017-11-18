@@ -1,16 +1,18 @@
 
-SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param, itr_param, LAM_out, EX_out, Z_out, EXX_out, nf_out, out_itr, out_dir){
+SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param, itr_param, LAM_out, EX_out, Z_out, EXX_out, nf_out, out_itr, out_dir,itr_final){
     Y_TMP_param <- as.numeric(as.character(Y_TMP_param))   
     LAM_out <- rep(0,nrow_param*nf_param)
     EX_out <- rep(0,nf_param*ncol_param)
     EXX_out <- rep(0,nf_param*nf_param)
     Z_out <- rep(0,nf_param)
     nf_out <- rep(0,1)
+    itr_final <- rep(0,1)
     
     result <- .C ("SFAmix",
-                  as.double(Y_TMP_param),as.integer(nrow_param), as.integer(ncol_param), as.double(a_param),as.double(b_param), as.integer(nf_param), as.integer(itr_param), LAM=as.double(LAM_out), EX=as.double(EX_out), Z=as.double(Z_out), EXX=as.double(EXX_out), nf=as.integer(nf_out), as.integer(out_itr), as.character(out_dir))
+                  as.double(Y_TMP_param),as.integer(nrow_param), as.integer(ncol_param), as.double(a_param),as.double(b_param), as.integer(nf_param), as.integer(itr_param), LAM=as.double(LAM_out), EX=as.double(EX_out), Z=as.double(Z_out), EXX=as.double(EXX_out), nf=as.integer(nf_out), as.integer(out_itr), as.character(out_dir),itr_final=as.integer(itr_final))
 
     nf <- result[['nf']][1]
+    itr <- result[['itr_final']][1]
     
     LAM=result[['LAM']]
     LAM <- LAM[1:(nrow_param*nf)]
@@ -27,7 +29,7 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
     Z <- 1- result[["Z"]][1:nf]
     
     #return(result)
-    return(list(lam=LAM,ex=EX,z=Z,exx=EXX,nf=nf))
+    return(list(lam=LAM,ex=EX,z=Z,exx=EXX,nf=nf,itr=itr))
     ##return(list(LAM=result$LAM_out,EX=result$EX_out))
 }
 
@@ -49,6 +51,7 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 #' @return z: a vector indicating whether the corresponding loading is sparse (value of 1)
 #' @return nf: the number of factors learned by the model
 #' @return exx: the expected value of the covarance matrix, E(XX^T)
+#' @return itr: the number of iterations for the algorithm to converge
 
 #' @examples
 #' library(SFAmix)
@@ -75,7 +78,7 @@ SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=20,out_dir=NULL){
     if(missing(y)){
         stop("Please check our documentation for the correct usage of this methods, you are missing an input matrix!")
     }
-        if(is.null(out_dir)){
+    if(is.null(out_dir)){
        out_dir2 = "NULL"
     }else{
         if(!file.exists(out_dir)){
@@ -91,8 +94,9 @@ SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=20,out_dir=NULL){
     EXX_out <- c()
     Z_out <- c()
     nf_out <- c()
+    itr_final <- c()
 
-    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out, out_itr, out_dir2)
+    result <- SFAmix(y,sn,dy,a,b,nf,itr,LAM_out,EX_out,Z_out, EXX_out, nf_out, out_itr, out_dir2,itr_final)
     
     
     return(result)

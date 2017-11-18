@@ -52,7 +52,7 @@ using Eigen::MatrixXd;
 
 
 
-extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, double *a_param,double *b_param, int *nf_param, int *itr_param, double *LAM_out, double *EX_out, double *Z_out, double *EXX_out, int *nf_out, int *out_itr, char **output_dir){
+extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, double *a_param,double *b_param, int *nf_param, int *itr_param, double *LAM_out, double *EX_out, double *Z_out, double *EXX_out, int *nf_out, int *out_itr, char **output_dir,int *itr_final){
     
     double a = *a_param;
     double b = *b_param;
@@ -60,6 +60,8 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 	int s_n = *nrow_param;
 	int d_y = *ncol_param;
 	int n_itr = *itr_param;
+    
+    int itr_conv = 0;
     
     int interval = *out_itr;
     string out_dir = *output_dir;
@@ -550,7 +552,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
         if(itr>=interval){
             //if(lam_count_v(itr+1)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr+1))<(0.05*lam_count_v(itr-interval))){
             if(lam_count_v(itr)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr))==0){
-
+                itr_conv = itr;
 				break; 
             }   
         }
@@ -629,6 +631,8 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     }
     
 	nf_out[0] = nf;
+    
+    itr_final[0] = itr_conv;
 	
 }
 
