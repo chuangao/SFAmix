@@ -549,9 +549,9 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
         lam_count_v(itr+1)=lam_count;
   
         // claim convergence if the number of values is stable for 200 iterations.
-        if(itr>=interval){
+        if(itr>=100){
             //if(lam_count_v(itr+1)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr+1))<(0.05*lam_count_v(itr-interval))){
-            if(lam_count_v(itr)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr))==0){
+            if(lam_count_v(itr)!=(s_n*nf)&&(lam_count_v(itr-100)-lam_count_v(itr))==0){
                 itr_conv = itr;
 				break; 
             }   
