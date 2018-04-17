@@ -6,16 +6,16 @@
 #URL='http://www.localmsp.org/gnu/gsl/gsl-2.2.tar.gz'
 
 #wget ${URL}
-tar -xzvf gsl-2.2.tar.gz
-cd gsl-2.2
+#tar -xzvf gsl-2.2.tar.gz
+#cd gsl-2.2
 
-./configure --prefix=$PWD
-make
-make install
-cp -r include/gsl ../include/
-cp -r lib/* ../lib/
+#./configure --prefix=$PWD
+#make
+#make install
+#cp -r include/gsl ../include/
+#cp -r lib/* ../lib/
 
-cd ../
+#cd ../
 
 #URL='http://bitbucket.org/eigen/eigen/get/3.3.3.tar.gz'
 #wget ${URL}

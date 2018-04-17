@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 #include <sstream>
+#include <random>
 
 
 #include <iostream>
@@ -18,11 +19,6 @@
 #include <Rmath.h>
 #include <Rinternals.h>
 
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
-#include <gsl/gsl_sf_psi.h>
-#include <gsl/gsl_sf_gamma.h>
 //#include <unsupported/Eigen/MatrixFunctions>
 
 using namespace Eigen;
@@ -140,6 +136,15 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     MatrixXd LPL = MatrixXd::Constant(nf,nf,0);
 
 	
+    // random device class instance, source of 'true' randomness for initializing random seed
+    std::random_device rd;
+    
+    // Mersenne twister PRNG, initialized with seed from previous random device instance
+    std::mt19937 gen(rd());
+    
+    std::normal_distribution<double> rnorm(0, 1);
+    
+    /*
 	long seed;
 	
 	gsl_rng *r;  // random number generator
@@ -147,9 +152,10 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 	
 	seed = time (NULL) * getpid();
 	
-	//seed=20877551893284;
+	
 	gsl_rng_set (r, seed);                  // set seed
-
+     */
+    
 	//gsl_rng_set (r, i_seed);
 	
     // Initialize parameters 
@@ -161,7 +167,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     // fill in the lambda matrix  
     for (int i=0; i<s_n; i++) {
         for(int j=0;j<nt;j++){
-            LAM(i,j)=gsl_ran_gaussian(r,1);
+            LAM(i,j)=rnorm(gen);
         }
     }
 	
@@ -203,16 +209,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
             cout << "count_lam" << endl << count_lam.transpose() << endl;
 			//cout << "out_dir" << endl << out_dir << endl;
 
-			/*
-			cout << "TAU " << TAU(1) << endl;
-			cout << "PHI " << PHI(1) << endl;
-			cout << "DELTA " << DELTA.block(0,0,2,2) << endl;
-			cout << "THETA " << THETA.block(0,0,2,2) << endl;
-			cout << "LAM " << LAM.block(0,0,2,2) << endl;
-			cout << "EX " << EX.block(0,0,2,2) << endl;
-			cout << "Z " << Z.block(0,0,2,2) << endl;
-			cout << "EXX " << EXX.block(0,0,2,2) << endl;
-			*/
          }
         
 	
@@ -521,10 +517,17 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 			ps1=ps1+Z(0,i);
 			ps2=ps2+Z(1,i);
 		}
+        
+        /*
 		double dgama = gsl_sf_psi(ps1+ps2);
 		LOGV(0,0)=gsl_sf_psi(ps1)-dgama;
 		LOGV(1,0)=gsl_sf_psi(ps2)-dgama;
-               
+        */
+        
+        double dgama = digammal(ps1+ps2);
+        LOGV(0,0)=digammal(ps1)-dgama;
+        LOGV(1,0)=digammal(ps2)-dgama;
+        
 		// PSI 
 		LX=LAM*EX;
 		for(int i=0;i<s_n;i++){
