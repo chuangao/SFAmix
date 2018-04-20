@@ -65,14 +65,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     
     stringstream ss;
 
-	//cout << "a " << a << endl;
-
-   
-	//cout << "nf " <<  nf << endl;
-	//cout << "s_n " << s_n << endl;
-   //cout << "a " << a << endl;
-   //cout << "a " << a << endl;
-   
 
 	double c=0.5,d=0.5,g=0.5,h=0.5,alpha=1,beta=1;
 
@@ -81,11 +73,10 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     for(int i = 0; i < d_y; i++){
         for(int j = 0; j < s_n; j++){
             Y(j,i) = Y_TMP_param[i*s_n+j];
-			//cout << "y_i_j" << Y(j,i) << endl;
+			
         }
     }
-    //cout << 'Y' << endl;
-	//cout << Y.block(0,0,3,3) << endl;
+ 
     
     VectorXd psi_v = VectorXd::Constant(s_n,1);
     VectorXd PSI=VectorXd::Constant(s_n,1);
@@ -201,13 +192,18 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     for(int itr=0;itr<(n_itr-1);itr++){
 
 		if(itr%10==0){
-		  //cout << out_dir << endl;
-            //cout << "after reduction" << endl;
-            cout << "itr " << itr << endl;
-            cout << "number of factors " << nf << endl;
+	
+            //cout << "itr " << itr << endl;
+            //Rprintf("The number of iterations is %f\n", itr)
+
+            //cout << "number of factors " << nf << endl;
             
-            cout << "count_lam" << endl << count_lam.transpose() << endl;
-			//cout << "out_dir" << endl << out_dir << endl;
+            //Rprintf("The number of factors is %f\n", nf)
+
+            
+            //cout << "count_lam" << endl << count_lam.transpose() << endl;
+            //Rprintf("The number of iterations is %f\n", itr)
+
 
          }
         
@@ -307,7 +303,7 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 			}
 		}
 		// remove inactive factors, loadings etc. and assign to new matrix
-		//cout << "number of factors before " << nf << endl;
+	
 		if(count_nonzero != nf){
 
 			// MatrixXd cbind=MatrixXd::Constant(nf,4,0);
@@ -316,7 +312,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 			// cbind.col(2)=Z.row(0);
 			// cbind.col(3)=index;
 
-			//cout << "cbind " << count_nonzero <<endl << cbind <<endl;
 
 			
 			nf=count_nonzero;
@@ -388,7 +383,6 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 			LPL=LPL2;
             
 		}
-		//cout << "number of factors after" << nf << endl;
         
 		// continue updating parameters 
 		for(int i=0;i<s_n;i++){
@@ -608,7 +602,8 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
         }
     }
 
-	cout << "nf " << nf << endl;
+	//cout << "nf " << nf << endl;
+    //Rprintf("The number of factor is %f\n", nf)
 	//LAM_out[0] = 1.5;
 	
 	for(int i = 0; i < nf; i++){
