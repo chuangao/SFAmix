@@ -42,12 +42,6 @@ using Eigen::MatrixXd;
    ./SFAmix --y /gpfs/fs0/data/engelhardtlab/cg148/data/CAP/S480RjQ2N_t_noCrossHyb.dat --nf 50 --sep space --out result
 */
 
-
-
-
-
-
-
 extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, double *a_param,double *b_param, int *nf_param, int *itr_param, double *LAM_out, double *EX_out, double *Z_out, double *EXX_out, int *nf_out, int *out_itr, char **output_dir,int *itr_final){
     
     double a = *a_param;
@@ -188,21 +182,32 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
 
 	// int gene_start=0;
 	// int gene_stop=0;
-	
+    ss.str("");
+    ss.clear();
+    ss << out_dir << "/progress.txt";
+    ofstream f_progress (ss.str().c_str());
+    
     for(int itr=0;itr<(n_itr-1);itr++){
 
 		if(itr%10==0){
 	
             //cout << "itr " << itr << endl;
             //Rprintf("The number of iterations is %f\n", itr)
-
-            //cout << "number of factors " << nf << endl;
             
-            //Rprintf("The number of factors is %f\n", nf)
+      
+            //if (f_exx.is_open()){
+            //    f_exx << EXX << endl;
+            //}
+            //f_exx.close();
+            f_progress << "number of iterations " << itr << endl;
+
+            f_progress << "number of factors " << nf << endl;
+            
+            //Rprintf("The number of factors is %f\n", nf);
 
             
-            //cout << "count_lam" << endl << count_lam.transpose() << endl;
-            //Rprintf("The number of iterations is %f\n", itr)
+            f_progress << "count_lam" << endl << count_lam.transpose() << endl;
+            //Rprintf("The number of iterations is %f\n", itr);
 
 
          }
@@ -601,9 +606,9 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
             f_nf.close();
         }
     }
-
+	f_progress.close();
 	//cout << "nf " << nf << endl;
-    //Rprintf("The number of factor is %f\n", nf)
+//Rprintf("The number of factor is %f\n", nf);
 	//LAM_out[0] = 1.5;
 	
 	for(int i = 0; i < nf; i++){
