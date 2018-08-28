@@ -49,7 +49,8 @@ result = SFAmixR(data$y,nf=50,itr=5000) <br/>
 cor.est.real = cor(result$lam[,result$z==1],data$lams) <br/>
 \# visulize the correlation matrix <br/>
 image(cor.est.real) <br/>
-    
+
+### Documentation
 Please refer to SFAmix.pdf for more usage details <br/>
 
 ### References
