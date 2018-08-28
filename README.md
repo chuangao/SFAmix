@@ -9,7 +9,7 @@
 `install_github("chuangao/SFAmix")` <br/>
 
 ## Install from source
-If install_github command fails (I found that install_github can't resolve the namespace that I specificy the .C all), then clone library into one of your local directory, then install from source <br/>
+If install_github command fails (I found that install_github can't resolve the namespace that I specified in the .C all), then clone library into one of your local directory, then install from source <br/>
 
 `git clone https://github.com/chuangao/SFAmix` <br/>
 `R CMD INSTALL SFAmix` <br/>
