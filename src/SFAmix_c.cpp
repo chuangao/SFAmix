@@ -63,11 +63,13 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
     
     int itr_conv = 0;
     
-    int interval = *out_itr;
+    int interval = 500;
+    int write_itr = *out_itr;
     string out_dir = *output_dir;
     std::replace( out_dir.begin(), out_dir.end(), '%', '/');
     
     stringstream ss;
+    
 
 	//cout << "a " << a << endl;
 
@@ -549,14 +551,14 @@ extern "C" void SFAmix(double *Y_TMP_param ,int *nrow_param, int *ncol_param, do
         lam_count_v(itr+1)=lam_count;
   
         // claim convergence if the number of values is stable for 200 iterations.
-        if(itr>=100){
+        if(itr>=interval){
             //if(lam_count_v(itr+1)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr+1))<(0.05*lam_count_v(itr-interval))){
-            if(lam_count_v(itr)!=(s_n*nf)&&(lam_count_v(itr-100)-lam_count_v(itr))==0){
+            if(lam_count_v(itr)!=(s_n*nf)&&(lam_count_v(itr-interval)-lam_count_v(itr))==0){
                 itr_conv = itr;
 				break; 
             }   
         }
-        if(out_dir.compare("NULL") != 0 & itr % interval == 0){
+        if(out_dir.compare("NULL") != 0 & itr % write_itr == 0){
             
             ss.str("");
             ss.clear();

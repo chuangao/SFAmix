@@ -72,7 +72,7 @@ SFAmix <- function(Y_TMP_param,nrow_param, ncol_param, a_param,b_param, nf_param
 
 #' @references \url{https://arxiv.org/abs/1310.4792}
 
-SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=500,out_itr=20,out_dir=NULL){
+SFAmixR <- function(y=y,nf=50,a=0.5,b=0.5,itr=50001,out_itr=50,out_dir=NULL){
     out_dir2 = out_dir
     out_dir2 = gsub("/","%",out_dir2)
     if(missing(y)){
