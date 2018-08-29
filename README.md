@@ -12,7 +12,7 @@
 
 ## Use devtools to install in R
 
-I found that install_github failed after I added namespace into the the .C all. Please install from source <br/>
+I found that install_github failed after I added namespace into the the .C all. Please install from source described above<br/>
 
 `library(devtools)` <br/>
 `install_github("chuangao/SFAmix")` <br/>
