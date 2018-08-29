@@ -4,12 +4,12 @@
 
 ###### This is the C++ implementation of SFAmixC wrapped in R. It is compiled single threaded. If you want to run multiple threaded, please check the SFAmixC package 
 
-## Use devtools to install in R,
-
+## Use devtools to install in R
 `library(devtools)` <br/>
 `install_github("chuangao/SFAmix")` <br/>
 
-### If install_github command fails, then clone library into one of your local directory, then install from source
+## Install from source
+If install_github command fails (I found that install_github can't resolve the namespace that I specified in the .C all), then clone library into one of your local directory, then install from source <br/>
 
 `git clone https://github.com/chuangao/SFAmix` <br/>
 `R CMD INSTALL SFAmix` <br/>
@@ -29,7 +29,7 @@ SFAmixR(y = y, nf = 100, itr = 5000) <br/>
 **out_itr** (Optional) the algorithm will write temporary results into the specified directory (see below) every out_itr number of iterations <br/>
 **out_dir** (Optional) Directory where the algorithm will write temporary results into at the specified iteration number(see above) <br/>
 
-### Value
+### Output
 **lam** the sparse loading matrix <br/>
 **ex** the factor matrix <br/>
 **z** a vector indicating whether the corresponding loading is sparse (value of 1) <br/>
@@ -38,7 +38,7 @@ SFAmixR(y = y, nf = 100, itr = 5000) <br/>
 **exx** the expected value of the covarance matrix, E(XX^T) <br/>
 **itr** the number of iterations for the algorithm to converge <br/>
 
-### Examples
+### Example
 library(SFAmix) <br/>
 \# simulate data <br/>
 data = gen_SFAmix_data(std=2) <br/>
