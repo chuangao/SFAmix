@@ -1,4 +1,4 @@
-## SFAmix
+## SFAmix (This has been deprecated, Please refer to BicMix for how to specify EX to be sparse to get the same results.)
 
 ###### SFAmix is a sparse matrix decomposition tool. Given a matrix Y with dimension of P by N, SFAmix decompose it into the product of a sparse matrix LAM and a dense matrix X
 
